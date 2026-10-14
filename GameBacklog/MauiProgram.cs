@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using GameBacklog.Services;
+using Microsoft.Extensions.Logging;
 
 namespace GameBacklog
 {
@@ -14,6 +15,8 @@ namespace GameBacklog
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Services.AddSingleton<GameRepository>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
