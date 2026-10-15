@@ -1,4 +1,6 @@
 ﻿using GameBacklog.Services;
+using GameBacklog.ViewModels;
+using GameBacklog.Views;
 using Microsoft.Extensions.Logging;
 
 namespace GameBacklog
@@ -17,6 +19,9 @@ namespace GameBacklog
                 });
 
             builder.Services.AddSingleton<GameRepository>();
+
+            builder.Services.AddTransient<MainViewModel>();
+            builder.Services.AddTransient<MainPage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
