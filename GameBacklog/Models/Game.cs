@@ -23,7 +23,11 @@ public class Game : ObservableObject
     public string Title
     {
         get => title;
-        set => SetProperty(ref title, value);
+        set
+        {
+            if (SetProperty(ref title, value))
+                OnPropertyChanged(nameof(Initial));
+        }
     }
 
     public string Platform
@@ -83,7 +87,10 @@ public class Game : ObservableObject
     }
 
     [JsonIgnore]
-    public string Subtitle => $"{Platform} · {Year}";
+    public string Initial => string.IsNullOrWhiteSpace(Title) ? "?" : Title.Trim()[..1].ToUpperInvariant();
+
+    [JsonIgnore]
+    public string Subtitle =>$"{Platform} · {Year}";
 
     [JsonIgnore]
     public string StatusText => Status.Label();
