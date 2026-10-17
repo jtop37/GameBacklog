@@ -17,4 +17,7 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
         await viewModel.LoadAsync();
     }
+
+    private async void OnAddClicked(object? sender, EventArgs e) =>
+        await Shell.Current.GoToAsync("add");
 }

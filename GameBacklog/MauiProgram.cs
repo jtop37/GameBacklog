@@ -22,6 +22,8 @@ namespace GameBacklog
 
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<AddGameViewModel>();
+            builder.Services.AddTransient<AddGamePage>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
