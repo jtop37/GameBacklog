@@ -11,11 +11,13 @@ public class AddGameViewModel : ObservableObject
     private string title = string.Empty;
     private string? platform;
     private string yearText = DateTime.Now.Year.ToString();
+    private string? imagePath;
 
     public AddGameViewModel(GameRepository repository)
     {
         this.repository = repository;
         SaveCommand = new Command(async () => await SaveAsync());
+        PickImageCommand = new Command(async () => await PickImageAsync());
     }
 
     public IReadOnlyList<string> Platforms { get; } = new[]
@@ -32,6 +34,14 @@ public class AddGameViewModel : ObservableObject
     };
 
     public ICommand SaveCommand { get; }
+
+    public ICommand PickImageCommand { get; }
+
+    public string? ImagePath
+    {
+        get => imagePath;
+        set => SetProperty(ref imagePath, value);
+    }
 
     public string Title
     {
@@ -59,9 +69,22 @@ public class AddGameViewModel : ObservableObject
         {
             Title = Title.Trim(),
             Platform = Platform ?? "Other",
-            Year = year
+            Year = year,
+            ImagePath = ImagePath
         });
 
         await Shell.Current.GoToAsync("..");
+    }
+
+    private async Task PickImageAsync()
+    {
+        var file = await FilePicker.Default.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select cover image",
+            FileTypes = FilePickerFileType.Images
+        });
+
+        if (file is not null)
+            ImagePath = file.FullPath;
     }
 }

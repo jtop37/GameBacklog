@@ -25,6 +25,16 @@
                 <Entry Text="{Binding YearText}" Keyboard="Numeric" MaxLength="4" />
             </VerticalStackLayout>
 
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Cover image" FontAttributes="Bold" />
+                <Image Source="{Binding ImagePath}"
+                       HeightRequest="200"
+                       Aspect="AspectFit" />
+                <Button Text="Choose image"
+                        Command="{Binding PickImageCommand}"
+                        BackgroundColor="{StaticResource Gray500}" />
+            </VerticalStackLayout>
+
             <Button Text="Save game" Command="{Binding SaveCommand}" />
         </VerticalStackLayout>
     </ScrollView>
