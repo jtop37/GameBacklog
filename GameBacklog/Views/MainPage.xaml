@@ -7,6 +7,10 @@
              x:DataType="vm:MainViewModel"
              Title="Library">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add game" Clicked="OnAddClicked" />
+    </ContentPage.ToolbarItems>
+
     <CollectionView x:Name="GamesList"
                     ItemsSource="{Binding Games}"
                     Margin="16,8">
