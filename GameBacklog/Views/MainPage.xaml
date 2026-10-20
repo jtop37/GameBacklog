@@ -13,6 +13,8 @@
 
     <CollectionView x:Name="GamesList"
                     ItemsSource="{Binding Games}"
+                    SelectionMode="Single"
+                    SelectionChanged="OnGameSelected"
                     Margin="16,8">
         <CollectionView.EmptyView>
             <VerticalStackLayout VerticalOptions="Center" Spacing="8" Padding="32">

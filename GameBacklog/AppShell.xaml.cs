@@ -9,6 +9,7 @@ namespace GameBacklog
             InitializeComponent();
 
             Routing.RegisterRoute("add", typeof(AddGamePage));
+            Routing.RegisterRoute("game", typeof(GameDetailPage));
         }
     }
 }
