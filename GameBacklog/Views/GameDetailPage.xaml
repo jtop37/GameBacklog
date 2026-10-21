@@ -68,6 +68,21 @@
                     </VerticalStackLayout>
                 </Border>
             </Grid>
+
+            <Grid Padding="20,0" ColumnDefinitions="*,*" ColumnSpacing="20">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Status" FontAttributes="Bold" />
+                    <Picker ItemsSource="{Binding StatusOptions}"
+                            SelectedIndex="{Binding StatusIndex}" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1" Spacing="4">
+                    <Label Text="Your rating" FontAttributes="Bold" />
+                    <Stepper Minimum="0"
+                             Maximum="10"
+                             Increment="1"
+                             Value="{Binding RatingValue}" />
+                </VerticalStackLayout>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 
