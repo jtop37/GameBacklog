@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using GameBacklog.Common;
 using GameBacklog.Models;
 using GameBacklog.Services;
@@ -8,6 +9,8 @@ public class GameDetailViewModel : ObservableObject
 {
     private readonly GameRepository repository;
     private Game? game;
+    private string newAchievementName = string.Empty;
+    private string newAchievementDescription = string.Empty;
 
     public GameDetailViewModel(GameRepository repository)
     {
@@ -21,6 +24,22 @@ public class GameDetailViewModel : ObservableObject
     }
 
     public IReadOnlyList<string> StatusOptions => GameStatusExtensions.Labels;
+
+    public ObservableCollection<Achievement> UnlockedAchievements { get; } = new();
+
+    public ObservableCollection<Achievement> LockedAchievements { get; } = new();
+
+    public string NewAchievementName
+    {
+        get => newAchievementName;
+        set => SetProperty(ref newAchievementName, value);
+    }
+
+    public string NewAchievementDescription
+    {
+        get => newAchievementDescription;
+        set => SetProperty(ref newAchievementDescription, value);
+    }
 
     public int StatusIndex
     {
@@ -56,5 +75,48 @@ public class GameDetailViewModel : ObservableObject
         Game = repository.Find(id);
         OnPropertyChanged(nameof(StatusIndex));
         OnPropertyChanged(nameof(RatingValue));
+        RefreshAchievements();
+    }
+
+    public async Task AddAchievementAsync()
+    {
+        if (Game is null || string.IsNullOrWhiteSpace(NewAchievementName))
+            return;
+
+        Game.Achievements.Add(new Achievement
+        {
+            Name = NewAchievementName.Trim(),
+            Description = NewAchievementDescription.Trim()
+        });
+
+        NewAchievementName = string.Empty;
+        NewAchievementDescription = string.Empty;
+        RefreshAchievements();
+        await repository.SaveAsync();
+    }
+
+    public async Task ToggleAchievementAsync(Achievement achievement)
+    {
+        achievement.UnlockedAt = achievement.IsUnlocked ? null : DateTime.Now;
+        Game?.NotifyAchievementsChanged();
+        RefreshAchievements();
+        await repository.SaveAsync();
+    }
+
+    private void RefreshAchievements()
+    {
+        UnlockedAchievements.Clear();
+        LockedAchievements.Clear();
+
+        if (Game is null)
+            return;
+
+        foreach (var achievement in Game.Achievements.OrderByDescending(a => a.UnlockedAt))
+        {
+            if (achievement.IsUnlocked)
+                UnlockedAchievements.Add(achievement);
+            else
+                LockedAchievements.Add(achievement);
+        }
     }
 }

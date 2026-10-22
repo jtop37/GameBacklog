@@ -32,6 +32,7 @@ public class Achievement : ObservableObject
             {
                 OnPropertyChanged(nameof(IsUnlocked));
                 OnPropertyChanged(nameof(UnlockedText));
+                OnPropertyChanged(nameof(ToggleText));
             }
         }
     }
@@ -41,4 +42,7 @@ public class Achievement : ObservableObject
 
     [JsonIgnore]
     public string UnlockedText => UnlockedAt is { } date ? $"Unlocked {date:d MMM yyyy}" : "Locked";
+
+    [JsonIgnore]
+    public string ToggleText => IsUnlocked ? "Lock" : "Unlock";
 }

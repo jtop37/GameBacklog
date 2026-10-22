@@ -1,3 +1,4 @@
+using GameBacklog.Models;
 using GameBacklog.ViewModels;
 
 namespace GameBacklog.Views;
@@ -24,4 +25,13 @@ public partial class GameDetailPage : ContentPage
 
     private async void OnBackClicked(object? sender, EventArgs e) =>
         await Shell.Current.GoToAsync("..");
+
+    private async void OnAddAchievementClicked(object? sender, EventArgs e) =>
+        await viewModel.AddAchievementAsync();
+
+    private async void OnToggleAchievementClicked(object? sender, EventArgs e)
+    {
+        if (sender is Button { BindingContext: Achievement achievement })
+            await viewModel.ToggleAchievementAsync(achievement);
+    }
 }

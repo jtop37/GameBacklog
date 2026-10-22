@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:GameBacklog.Models"
              xmlns:vm="clr-namespace:GameBacklog.ViewModels"
              x:Class="GameBacklog.Views.GameDetailPage"
              x:DataType="vm:GameDetailViewModel"
@@ -24,6 +25,21 @@
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="HorizontalTextAlignment" Value="Center" />
         </Style>
+        <DataTemplate x:Key="AchievementTemplate" x:DataType="models:Achievement">
+            <Border Style="{StaticResource StatTile}">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                        <Label Text="{Binding Name}" FontAttributes="Bold" />
+                        <Label Text="{Binding Description}" TextColor="{StaticResource Gray500}" />
+                        <Label Text="{Binding UnlockedText}" FontSize="12" TextColor="{StaticResource Primary}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1"
+                            Text="{Binding ToggleText}"
+                            VerticalOptions="Center"
+                            Clicked="OnToggleAchievementClicked" />
+                </Grid>
+            </Border>
+        </DataTemplate>
     </ContentPage.Resources>
 
     <ScrollView>
@@ -83,6 +99,27 @@
                              Value="{Binding RatingValue}" />
                 </VerticalStackLayout>
             </Grid>
+
+            <VerticalStackLayout Padding="20,0" Spacing="8">
+                <Label Text="Unlocked achievements" FontSize="20" FontAttributes="Bold" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding UnlockedAchievements}"
+                                     BindableLayout.ItemTemplate="{StaticResource AchievementTemplate}"
+                                     Spacing="8" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="20,0" Spacing="8">
+                <Label Text="Locked achievements" FontSize="20" FontAttributes="Bold" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding LockedAchievements}"
+                                     BindableLayout.ItemTemplate="{StaticResource AchievementTemplate}"
+                                     Spacing="8" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Padding="20,0" Spacing="8">
+                <Label Text="New achievement" FontSize="20" FontAttributes="Bold" />
+                <Entry Text="{Binding NewAchievementName}" Placeholder="Name" />
+                <Entry Text="{Binding NewAchievementDescription}" Placeholder="Description" />
+                <Button Text="Add achievement" Clicked="OnAddAchievementClicked" />
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
