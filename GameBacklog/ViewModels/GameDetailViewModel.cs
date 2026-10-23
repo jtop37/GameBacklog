@@ -11,6 +11,7 @@ public class GameDetailViewModel : ObservableObject
     private Game? game;
     private string newAchievementName = string.Empty;
     private string newAchievementDescription = string.Empty;
+    private string playtimeToAdd = string.Empty;
 
     public GameDetailViewModel(GameRepository repository)
     {
@@ -28,6 +29,12 @@ public class GameDetailViewModel : ObservableObject
     public ObservableCollection<Achievement> UnlockedAchievements { get; } = new();
 
     public ObservableCollection<Achievement> LockedAchievements { get; } = new();
+
+    public string PlaytimeToAdd
+    {
+        get => playtimeToAdd;
+        set => SetProperty(ref playtimeToAdd, value);
+    }
 
     public string NewAchievementName
     {
@@ -76,6 +83,16 @@ public class GameDetailViewModel : ObservableObject
         OnPropertyChanged(nameof(StatusIndex));
         OnPropertyChanged(nameof(RatingValue));
         RefreshAchievements();
+    }
+
+    public async Task LogPlaytimeAsync()
+    {
+        if (Game is null || !double.TryParse(PlaytimeToAdd, out var hours) || hours <= 0)
+            return;
+
+        Game.PlaytimeHours += hours;
+        PlaytimeToAdd = string.Empty;
+        await repository.SaveAsync();
     }
 
     public async Task AddAchievementAsync()

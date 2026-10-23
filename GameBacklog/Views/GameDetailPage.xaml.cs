@@ -26,6 +26,9 @@ public partial class GameDetailPage : ContentPage
     private async void OnBackClicked(object? sender, EventArgs e) =>
         await Shell.Current.GoToAsync("..");
 
+    private async void OnLogPlaytimeClicked(object? sender, EventArgs e) =>
+        await viewModel.LogPlaytimeAsync();
+
     private async void OnAddAchievementClicked(object? sender, EventArgs e) =>
         await viewModel.AddAchievementAsync();
 
