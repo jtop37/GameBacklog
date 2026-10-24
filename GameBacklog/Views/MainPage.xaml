@@ -11,7 +11,16 @@
         <ToolbarItem Text="Add game" Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
 
+    <Grid RowDefinitions="Auto,*">
+    <HorizontalStackLayout Padding="16,8,16,0" Spacing="8">
+        <Label Text="Sort by" VerticalOptions="Center" />
+        <Picker ItemsSource="{Binding SortOptions}"
+                SelectedIndex="{Binding SortIndex}"
+                WidthRequest="170" />
+    </HorizontalStackLayout>
+
     <CollectionView x:Name="GamesList"
+                    Grid.Row="1"
                     ItemsSource="{Binding Games}"
                     SelectionMode="Single"
                     SelectionChanged="OnGameSelected"
@@ -64,5 +73,6 @@
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>
+    </Grid>
 
 </ContentPage>
