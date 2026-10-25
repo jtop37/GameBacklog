@@ -6,9 +6,15 @@
     xmlns:views="clr-namespace:GameBacklog.Views"
     Title="GameBacklog">
 
-    <ShellContent
-        Title="Library"
-        ContentTemplate="{DataTemplate views:MainPage}"
-        Route="library" />
+    <TabBar>
+        <ShellContent
+            Title="Library"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="library" />
+        <ShellContent
+            Title="Statistics"
+            ContentTemplate="{DataTemplate views:StatisticsPage}"
+            Route="statistics" />
+    </TabBar>
 
 </Shell>

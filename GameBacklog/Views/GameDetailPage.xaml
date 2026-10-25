@@ -64,11 +64,17 @@
                 <Label Text="{Binding Game.AddedText, StringFormat='Added {0}'}" TextColor="{StaticResource Gray500}" />
             </VerticalStackLayout>
 
-            <Grid Padding="20,0" ColumnDefinitions="*,*,*" ColumnSpacing="10">
+            <Grid Padding="20,0" ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
                 <Border Style="{StaticResource StatTile}">
                     <VerticalStackLayout>
                         <Label Text="{Binding Game.RatingText}" Style="{StaticResource StatValue}" />
                         <Label Text="Rating" Style="{StaticResource StatCaption}" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="3" Style="{StaticResource StatTile}">
+                    <VerticalStackLayout>
+                        <Label Text="{Binding Game.PlaytimeText}" Style="{StaticResource StatValue}" />
+                        <Label Text="Playtime" Style="{StaticResource StatCaption}" />
                     </VerticalStackLayout>
                 </Border>
                 <Border Grid.Column="1" Style="{StaticResource StatTile}">
@@ -98,6 +104,11 @@
                              Increment="1"
                              Value="{Binding RatingValue}" />
                 </VerticalStackLayout>
+            </Grid>
+
+            <Grid Padding="20,0" ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Entry Text="{Binding PlaytimeToAdd}" Placeholder="Hours played" Keyboard="Numeric" />
+                <Button Grid.Column="1" Text="Log playtime" Clicked="OnLogPlaytimeClicked" />
             </Grid>
 
             <VerticalStackLayout Padding="20,0" Spacing="8">
