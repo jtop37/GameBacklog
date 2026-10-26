@@ -9,6 +9,7 @@ public class MainViewModel : ObservableObject
 {
     private readonly GameRepository repository;
     private int sortIndex;
+    private int filterIndex;
 
     public MainViewModel(GameRepository repository)
     {
@@ -29,6 +30,19 @@ public class MainViewModel : ObservableObject
         }
     }
 
+    public IReadOnlyList<string> FilterOptions { get; } =
+        new[] { "All" }.Concat(GameStatusExtensions.Labels).ToList();
+
+    public int FilterIndex
+    {
+        get => filterIndex;
+        set
+        {
+            if (value >= 0 && SetProperty(ref filterIndex, value))
+                Refresh();
+        }
+    }
+
     public async Task LoadAsync()
     {
         await repository.LoadAsync();
@@ -37,8 +51,12 @@ public class MainViewModel : ObservableObject
 
     private void Refresh()
     {
+        var games = FilterIndex == 0
+            ? repository.Games
+            : repository.Games.Where(game => (int)game.Status == FilterIndex - 1);
+
         Games.Clear();
-        foreach (var game in ((GameSortMode)SortIndex).Apply(repository.Games))
+        foreach (var game in ((GameSortMode)SortIndex).Apply(games))
             Games.Add(game);
     }
 }
