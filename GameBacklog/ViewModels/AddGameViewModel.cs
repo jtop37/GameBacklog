@@ -84,7 +84,20 @@ public class AddGameViewModel : ObservableObject
             FileTypes = FilePickerFileType.Images
         });
 
-        if (file is not null)
-            ImagePath = file.FullPath;
+        if (file is null)
+            return;
+
+        var coversDirectory = Path.Combine(FileSystem.AppDataDirectory, "covers");
+        Directory.CreateDirectory(coversDirectory);
+
+        var targetPath = Path.Combine(coversDirectory, $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}");
+
+        await using (var source = await file.OpenReadAsync())
+        await using (var target = File.Create(targetPath))
+        {
+            await source.CopyToAsync(target);
+        }
+
+        ImagePath = targetPath;
     }
 }
