@@ -12,6 +12,7 @@ public class AddGameViewModel : ObservableObject
     private string? platform;
     private string yearText = DateTime.Now.Year.ToString();
     private string? imagePath;
+    private string errorMessage = string.Empty;
 
     public AddGameViewModel(GameRepository repository)
     {
@@ -36,6 +37,12 @@ public class AddGameViewModel : ObservableObject
     public ICommand SaveCommand { get; }
 
     public ICommand PickImageCommand { get; }
+
+    public string ErrorMessage
+    {
+        get => errorMessage;
+        set => SetProperty(ref errorMessage, value);
+    }
 
     public string? ImagePath
     {
@@ -63,7 +70,19 @@ public class AddGameViewModel : ObservableObject
 
     private async Task SaveAsync()
     {
-        int.TryParse(YearText, out var year);
+        if (string.IsNullOrWhiteSpace(Title))
+        {
+            ErrorMessage = "Title is required.";
+            return;
+        }
+
+        if (!int.TryParse(YearText, out var year) || year < 1950 || year > DateTime.Now.Year + 1)
+        {
+            ErrorMessage = "Enter a valid release year.";
+            return;
+        }
+
+        ErrorMessage = string.Empty;
 
         await repository.AddAsync(new Game
         {
