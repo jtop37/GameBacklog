@@ -35,6 +35,8 @@
                         BackgroundColor="{StaticResource Gray500}" />
             </VerticalStackLayout>
 
+            <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource Magenta}" />
+
             <Button Text="Save game" Command="{Binding SaveCommand}" />
         </VerticalStackLayout>
     </ScrollView>
