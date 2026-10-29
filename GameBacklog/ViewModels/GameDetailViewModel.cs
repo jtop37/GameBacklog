@@ -108,6 +108,7 @@ public class GameDetailViewModel : ObservableObject
 
         NewAchievementName = string.Empty;
         NewAchievementDescription = string.Empty;
+        Game.NotifyAchievementsChanged();
         RefreshAchievements();
         await repository.SaveAsync();
     }
