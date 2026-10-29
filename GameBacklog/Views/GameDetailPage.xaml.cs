@@ -26,6 +26,16 @@ public partial class GameDetailPage : ContentPage
     private async void OnBackClicked(object? sender, EventArgs e) =>
         await Shell.Current.GoToAsync("..");
 
+    private async void OnDeleteClicked(object? sender, EventArgs e)
+    {
+        var confirmed = await DisplayAlertAsync("Delete game", "Remove this game from your library?", "Delete", "Cancel");
+        if (!confirmed)
+            return;
+
+        await viewModel.DeleteAsync();
+        await Shell.Current.GoToAsync("..");
+    }
+
     private async void OnLogPlaytimeClicked(object? sender, EventArgs e) =>
         await viewModel.LogPlaytimeAsync();
 
