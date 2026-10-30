@@ -131,6 +131,11 @@
                 <Entry Text="{Binding NewAchievementDescription}" Placeholder="Description" />
                 <Button Text="Add achievement" Clicked="OnAddAchievementClicked" />
             </VerticalStackLayout>
+
+            <Button Text="Delete game"
+                    Clicked="OnDeleteClicked"
+                    BackgroundColor="{StaticResource Magenta}"
+                    Margin="20,8" />
         </VerticalStackLayout>
     </ScrollView>
 

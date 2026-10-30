@@ -95,6 +95,12 @@ public class GameDetailViewModel : ObservableObject
         await repository.SaveAsync();
     }
 
+    public async Task DeleteAsync()
+    {
+        if (Game is not null)
+            await repository.RemoveAsync(Game);
+    }
+
     public async Task AddAchievementAsync()
     {
         if (Game is null || string.IsNullOrWhiteSpace(NewAchievementName))
